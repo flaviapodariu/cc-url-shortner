@@ -17,4 +17,12 @@ kubectl apply -f business-logic/business-logic-service.yaml
 kubectl apply -f url-web-app/web-app-deployment.yaml
 kubectl apply -f url-web-app/web-app-service.yaml
 
+kubectl apply -f monitoring/portainer.yaml
 
+kubectl apply -f monitoring/prometheus-configmap.yaml
+kubectl apply -f monitoring/prometheus-deployment.yaml
+kubectl apply -f monitoring/prometheus-service.yaml
+kubectl apply -f monitoring/grafana-deployment.yaml
+kubectl apply -f monitoring/grafana-service.yaml
+
+kubectl port-forward -n monitoring service/grafana-service 3000:3000
