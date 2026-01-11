@@ -30,10 +30,21 @@ In plus, trebuie facut si un patch ca sa functioneze impreuna cu Kind:
 `helm install dev ./helm/url-shortner-app/`
 ## Accesarea componentelor proiectului
 
+### Web App 
+* Locatie:  http://localhost:30003/
+
+### Portainer
+* Locatie: http://localhost:30004/
+
+### Grafana
+* Locatie: http://localhost:30005/
+
 ### Adminer
 Pentru a accesa Adminer, trebuie facut port-forward: 
 
 `kubectl port-forward service/adminer-dev 8081:8081`
+
+* Locatie: http://localhost:8081/
 
 System -> PostgreSQL
 Server -> postgres-db-dev
