@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-    name: monitoring
+  name: monitoring
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: prometheus-config
-    namespace: monitoring
+  name: prometheus-config
+  namespace: monitoring
 data:
-    prometheus.yml: |
-        global:
-          scrape_interval: 15s
-        scrape_configs:
-          - job_name: 'prometheus'
-            static_configs:
-              - targets: ['localhost:9090']
-          - job_name: 'kubernetes-nodes'
-            kubernetes_sd_configs:
-            - role: node
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+      - job_name: 'flask-web-app'
+        static_configs:
+          - targets: ['web-app-dev:8080']
+      - job_name: 'kubernetes-nodes'
+        kubernetes_sd_configs:
+        - role: node

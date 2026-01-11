@@ -2,3 +2,4 @@ Flask
 flask-cors
 psycopg2-binary
 PyJWT
+prometheus_client

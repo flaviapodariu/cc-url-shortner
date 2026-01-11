@@ -16,6 +16,9 @@ spec:
             containers:
                 - name: grafana
                   image: grafana/grafana:latest
+                  volumeMounts:
+                      - name: grafana-storage
+                        mountPath: /var/lib/grafana
                   ports:
                       - containerPort: 3000
                   resources:
@@ -25,3 +28,7 @@ spec:
                       limits:
                           cpu: "500m"
                           memory: "512Mi"
+            volumes:
+                - name: grafana-storage
+                  persistentVolumeClaim:
+                      claimName: grafana-pvc

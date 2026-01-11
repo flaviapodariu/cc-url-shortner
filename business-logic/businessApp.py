@@ -2,9 +2,11 @@ import os
 import psycopg2
 import random
 import string
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 import jwt
+
 
 app = Flask(__name__)
 CORS(app)
@@ -28,6 +30,13 @@ def get_user_from_token():
         return data['user_id']
     except:
         return None
+
+
+LINKS_CREATED_COUNTER = Counter('url_shortener_links_created_total', 'Total links generated')
+
+@app.route('/metrics')
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
 @app.route('/getUserName', methods=['GET'])
 def get_user_name():
@@ -84,6 +93,7 @@ def shorten_link():
             )
         
         conn.commit()
+        LINKS_CREATED_COUNTER.inc()
         return jsonify({"short_code": short_code, "url": f"http://localhost/{short_code}"}), 201
     except Exception as e:
         conn.rollback()

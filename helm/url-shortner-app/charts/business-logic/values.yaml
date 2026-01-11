@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: andreimurica/cc-business-logic
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 containerPort: 8080
 
