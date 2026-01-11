@@ -5,7 +5,6 @@ metadata:
   labels:
     app: {{ include "business-logic.name" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: {{ include "business-logic.name" . }}

@@ -13,11 +13,18 @@ spec:
             labels:
                 app: prometheus
         spec:
+            # securityContext at the Pod level ensures Prometheus can write to the PVC
+            securityContext:
+                runAsUser: 65534
+                runAsGroup: 65534
+                fsGroup: 65534
             containers:
                 - name: prometheus
                   image: prom/prometheus:latest
                   args:
                       - "--config.file=/etc/prometheus/prometheus.yml"
+                      - "--storage.tsdb.path=/prometheus" # Tells Prometheus where to save data
+                      - "--storage.tsdb.retention.time=15d" # Optional: Keeps 15 days of history
                   ports:
                       - containerPort: 9090
                   resources:
@@ -30,11 +37,12 @@ spec:
                   volumeMounts:
                       - name: config-volume
                         mountPath: /etc/prometheus/
+                      - name: storage-volume
+                        mountPath: /prometheus # Mounts the PVC to the storage path
             volumes:
                 - name: config-volume
                   configMap:
                       name: prometheus-config
-            securityContext:
-                runAsUser: 65534
-                runAsGroup: 65534
-                fsGroup: 65534
+                - name: storage-volume
+                  persistentVolumeClaim:
+                      claimName: prometheus-pvc # This must match your PVC name
